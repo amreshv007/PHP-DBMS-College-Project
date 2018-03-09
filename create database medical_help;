@@ -1,0 +1,91 @@
+create database medical_help;
+
+create table person (
+    p_key int(20) not null,
+    f_name varchar(20) not null,
+    l_name varchar(20) not null,
+    village varchar(20) not null,
+    region varchar(20) not null,
+    destrict varchar(20) not null,
+    volunteer boolean not null);
+	alter table person add password1 int(8) not null;
+
+    
+	
+
+alter table person add primary key(p_key) ;
+
+
+CREATE TABLE disease(
+    d_id int(10) not null,
+    d_name varchar(20) not null,
+    primary key(d_id));
+	
+	
+CREATE table disease_medicine(
+    medicine varchar(20) not null,
+    d_id int(10) not null,
+    FOREIGN KEY (d_id) REFERENCES disease (d_id) );
+	
+
+
+	CREATE table disease_symptoms(
+    symptoms varchar(20) not null,
+    d_id int(10) not null,
+    FOREIGN KEY (d_id) REFERENCES disease (d_id) );
+ 
+ 
+ 
+ CREATE table have_in(
+    d_id int(10) not null,
+    p_key int(20) not null,
+    FOREIGN KEY (d_id) REFERENCES disease(d_id),
+    FOREIGN key (p_key) REFERENCES person(p_key)
+    );
+	
+	
+	create table doctor(
+    doctor_id int(10) not null,
+    f_name varchar(20) not null,
+    l_name varchar(20) not null,
+    experience int(10) not null,
+    qualification varchar(20) not null,
+    contact_no int(10) not null,
+    city varchar(20) not null,
+    state varchar(20) not null,
+    d_id int(10) not null,
+    FOREIGN key (d_id) REFERENCES disease(d_id),
+    PRIMARY key (doctor_id)
+    );
+	alter table doctor add password1 int(8) not null;
+
+	
+	
+	CREATE TABLE camp_free_slot(
+    doctor_id int(10) not null,
+    date1 date ,
+    time1 time
+    );
+	
+alter table camp_free_slot add FOREIGN key (doctor_id) REFERENCES doctor(doctor_id) ;
+
+
+
+CREATE TABLE camp(
+    camp_id int(10) not null,
+    date1 date,
+    time1 time,
+    village varchar(20) not null,
+    PRIMARY key (camp_id) );
+	
+	
+	
+create table in_vision_of (
+    doctor_id int(10) not null,
+    camp_id int(10) not null,
+    FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id),
+    FOREIGN KEY (camp_id) REFERENCES camp(camp_id)
+    );
+
+
+    ALTER TABLE `person` CHANGE `volunteer` `volunteer` TINYINT(1) NOT NULL DEFAULT '0';
